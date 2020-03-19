@@ -9,6 +9,14 @@ module.exports = function(app) {
         '^/vkey': ''
       }
    }));
+   app.use(createProxyMiddleware('/serch', { 
+    target: "https://c.y.qq.com/soso/fcgi-bin/client_search_cp",
+    secure: false,
+    changeOrigin: true,
+    pathRewrite: {
+        '^/serch': ''
+      }
+   }));
    app.use(createProxyMiddleware('/mp3', { 
     target: "http://ws.stream.qqmusic.qq.com",
     secure: false,
