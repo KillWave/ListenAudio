@@ -4,3 +4,11 @@
 .play{
     display:inline-block;
 }
+
+
+.seachResult{
+    position: absolute;
+    z-index: 2;
+    top: 41px;
+    width: 100%;
+}
