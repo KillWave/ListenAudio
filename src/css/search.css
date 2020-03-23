@@ -9,6 +9,7 @@
     padding:10px 12px;
     line-height: normal;
     border-bottom: 1px solid #eee;
+    cursor:pointer;
 }
 .suggersItem:hover{
     background:  rgba(63, 154, 228,0.4);

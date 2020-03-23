@@ -21,6 +21,7 @@ export default (props)=>{
                         setValue.search(item.songname,setDataFn) 
                         isShowFn(false);
                         setStore({list:list})
+                        setStore({world:item.songname})
                     }
             }>{item.songname}</div>)
             }) : []

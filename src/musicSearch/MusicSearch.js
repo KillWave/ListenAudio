@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import api from '../api'
 import '../css/search.css'
+import {StoreContext} from '../store'
 import Sugger from './Sugger'
 import { Layout,Input } from 'antd'
 const { Search } = Input;
@@ -74,9 +75,15 @@ function sugger(isshow,ref){
     return isshow;
 }
 export default ()=>{
-  
+  const {setStore} =  useContext(StoreContext);
     const [ data,setData ] = useState([]);
     const [searchVal,setSearchVal] = useState("");
+    useEffect(()=>{
+      if(searchVal === ""){
+        refFn(false)
+      }
+
+    },[searchVal])
 
     return (
             <Header>
@@ -84,7 +91,7 @@ export default ()=>{
                     <Search
                     placeholder="input search text"
                     onChange={(e)=>{setSearchVal(e.target.value);search(e.target.value,setData);!isShow && refFn(true)}}
-                    onSearch={value => {setSearchVal(value);search(value,setData);refFn(false)}}
+                    onSearch={value => {setSearchVal(value);search(value,setData);refFn(false);setStore({world:value})}}
                     onFocus={(e)=>{setSearchVal(e.target.value);search(e.target.value,setData);!isShow && refFn(true)}}
                     value={searchVal}
                     />

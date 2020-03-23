@@ -9,7 +9,7 @@ export default ()=>{
 
     return (
         <>
-        <Sider>List</Sider>
+        <Sider width={360}>List</Sider>
         </>
     )
 }

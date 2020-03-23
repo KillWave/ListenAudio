@@ -6,7 +6,8 @@ export default {
     source,
     page : {
         p:1,
-        n:10
+        n:12
       },
-      list:[]
+      list:[],
+      world:""
 }
