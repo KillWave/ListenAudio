@@ -9,21 +9,19 @@ export function music(url,cb){
     axios.get(url).then(res=>{
         let data = res.data.data;
          data.items.forEach(item=>{
-           fetch(`/mp3/${item.filename}?fromtag=0&guid=${guid}&vkey=${item.vkey}`,{
-             method: 'get',
-             responseType: 'arraybuffer'
-         }).then(res => {     
-             return res.arrayBuffer();
-         }).then(buf => {
-            cb(buf);
-        //    audioCtx.decodeAudioData(buf).then((decodedData)=>{
-             
+             console.log(item);
+             if(item.vkey !== ""){
+                fetch(`/mp3/${item.filename}?fromtag=0&guid=${guid}&vkey=${item.vkey}`,{
+                    method: 'get',
+                    responseType: 'arraybuffer'
+                }).then(res => {     
+                    return res.arrayBuffer();
+                }).then(buf => {
+                   cb(buf);
+                })
 
-        // //    source.buffer = decodedData;
-        // //    source.connect(audioCtx.destination);
-        // //    source.loop = true;
-        //    })
-         })
+             }
+          
         })
       })
 }

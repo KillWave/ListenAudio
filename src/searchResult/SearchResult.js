@@ -3,28 +3,44 @@ import api from '../api'
 import { List  } from 'antd';
 import {StoreContext} from '../store'
 import { clickVkey } from '../uitl/uitl'
-
+const auidoArr = [];
 function callback(data){
     return data;
 }
-function clickPlay(data,audio,source){
+function clickPlay(data,audio,isPlay,setStore){
+    auidoArr.forEach((item)=>{
+        item.stop();
+        setStore({isPlay:!isPlay})
+    })
+    auidoArr.pop();
+   
     const vkey = clickVkey(data);
     api.music(vkey,(buf)=>{
-           audio.decodeAudioData(buf).then((decodedData)=>{
+            const source = audio.createBufferSource();
+            auidoArr.push(source);
+            audio.decodeAudioData(buf).then((decodedData)=>{
                 source.buffer = decodedData;
                 source.connect(audio.destination);
                 source.loop = true;
                 source.start(0);
+                setTimeout(()=>{
+                    setStore({isPlay})    
+                },500)
+               
            })
+          
     })
 }
 
 export default ()=>{
-    const {store} =  useContext(StoreContext);
+    const {store,setStore,fn} =  useContext(StoreContext);
     const [data,setData] = useState({});
     const [list,setList] = useState([]);
     const [totalnum,setTotalnum] = useState(0);
-    const [storeN] = useState(store.page.n)
+    const [storeN] = useState(store.page.n);
+    // console.log(store.isPlay)
+    useEffect(fn)
+    
     useEffect(()=>{
         if(store.world !== ""){
             api.search({...store.page,world:store.world},(data)=>{
@@ -65,7 +81,7 @@ export default ()=>{
         }}
         header={cacheWorld}
         dataSource={list}
-        renderItem={item => <List.Item onClick={()=>{clickPlay(item,store.audioCtx,store.source)}}>{item.songname}</List.Item>}
+        renderItem={item => <List.Item onClick={()=>{ clickPlay(item,store.audioCtx,!store.isPlay,setStore)}}>{item.songname}</List.Item>}
         />
       
 

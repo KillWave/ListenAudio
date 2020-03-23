@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import {StoreContext} from '../store'
 import { Layout } from 'antd'
 import '../css/play.css'
@@ -6,7 +6,7 @@ import { StepBackwardOutlined, StepForwardOutlined, CaretRightOutlined ,PauseOut
 const { Footer } = Layout;
 let isStart = true;
 function playFn(setPlay,play,store){
-    setPlay(play)
+    setPlay(play);
     if(play){
       if(isStart){
         store.source.start(0);
@@ -31,12 +31,17 @@ function playFn(setPlay,play,store){
 
 export default ()=>{
     const {store} =  useContext(StoreContext)
-    let [ play,setPlay ] = useState(false);
+    const [ play,setPlay ] = useState(store.isPlay);
+    // useEffect(fn);
+    useEffect(()=>{
+      setPlay(store.isPlay)
+  },[store.isPlay])
+    console.log(play,store.isPlay);
     return (
         <>
         <Footer>
         <StepBackwardOutlined className="iconFont"/>
-          <div className="play" onClick={playFn.bind(this,setPlay,!play,store)}>
+          <div className="play" onClick={()=>{playFn(setPlay,!play,store)}}>
             {
                 Conctrl(play)
             }

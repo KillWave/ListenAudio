@@ -12,7 +12,7 @@ export default (props)=>{
     useMemo(()=> onRef(isShow,isShowFn),[isShow])
 
     return ( 
-        <div className="seachResult">
+        <div className="seachResult"  >
         {
            isShow ? list.map((item,key)=>{
                 return (<div className="suggersItem" key={key} onClick={
