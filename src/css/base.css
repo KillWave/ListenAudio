@@ -1,14 +1,3 @@
-.iconFont{
-   font-size:40px;
-}
-.play{
-    display:inline-block;
-}
-
-
-.seachResult{
-    position: absolute;
-    z-index: 2;
-    top: 41px;
-    width: 100%;
+.ant-layout-sider{
+    height : calc(100vh)
 }

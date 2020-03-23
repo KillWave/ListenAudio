@@ -1,0 +1,19 @@
+.seachResult{
+    position: absolute;
+    z-index: 2;
+    top: 48px;
+    width: 100%;
+    background: #fff;
+}
+.suggersItem{
+    padding:10px 12px;
+    line-height: normal;
+    border-bottom: 1px solid #eee;
+}
+.suggersItem:hover{
+    background:  rgba(63, 154, 228,0.4);
+    color:#fff;
+}
+.sugger{
+    position: relative;
+}
