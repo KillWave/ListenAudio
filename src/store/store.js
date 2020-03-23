@@ -3,7 +3,7 @@ const audioCtx = new AudioContext();
 
 export default {
     audioCtx,
-    // source,
+    source:null,
     page : {
         p:1,
         n:12

@@ -2,35 +2,11 @@ import React,{useContext,useState, useEffect, useMemo} from 'react'
 import api from '../api'
 import { List  } from 'antd';
 import {StoreContext} from '../store'
-import { clickVkey } from '../uitl/uitl'
-const auidoArr = [];
+import { clickPlay } from '../uitl/uitl'
 function callback(data){
     return data;
 }
-function clickPlay(data,audio,isPlay,setStore){
-    auidoArr.forEach((item)=>{
-        item.stop();
-        setStore({isPlay:!isPlay})
-    })
-    auidoArr.pop();
-   
-    const vkey = clickVkey(data);
-    api.music(vkey,(buf)=>{
-            const source = audio.createBufferSource();
-            auidoArr.push(source);
-            audio.decodeAudioData(buf).then((decodedData)=>{
-                source.buffer = decodedData;
-                source.connect(audio.destination);
-                source.loop = true;
-                source.start(0);
-                setTimeout(()=>{
-                    setStore({isPlay})    
-                },500)
-               
-           })
-          
-    })
-}
+
 
 export default ()=>{
     const {store,setStore,fn} =  useContext(StoreContext);
@@ -81,7 +57,7 @@ export default ()=>{
         }}
         header={cacheWorld}
         dataSource={list}
-        renderItem={item => <List.Item onClick={()=>{ clickPlay(item,store.audioCtx,!store.isPlay,setStore)}}>{item.songname}</List.Item>}
+        renderItem={item => <List.Item onClick={()=>{ clickPlay(item,store,setStore)}}>{item.songname}</List.Item>}
         />
       
 

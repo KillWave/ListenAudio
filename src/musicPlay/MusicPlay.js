@@ -4,24 +4,30 @@ import { Layout } from 'antd'
 import '../css/play.css'
 import { StepBackwardOutlined, StepForwardOutlined, CaretRightOutlined ,PauseOutlined } from '@ant-design/icons';
 const { Footer } = Layout;
-let isStart = true;
-function playFn(setPlay,play,store){
-    setPlay(play);
-    if(play){
-      if(isStart){
+function playFn(store){
+    if(store.source === null){
+      return
+    }
+    store.source.connect(store.audioCtx.destination);
+    // const state = store.audioCtx.state;
+    console.log(store.isPlay);
+    if(store.isPlay){
+      
+      // console.log(state)
+      // if(state === 'running'){  
         store.source.start(0);
-        isStart = false;
-      }else{
-        store.audioCtx.resume()
-      }
-     
+      //   console.log(11)
+      // }else{
+      //   store.audioCtx.resume()
+      // }
     }else{
         store.audioCtx.suspend()
     }
     
   }
-  function Conctrl(bool){
-    if(bool){
+  function Conctrl(props){
+
+    if(props.bool){
       return  <PauseOutlined className="iconFont"/>
      
     }else{
@@ -30,21 +36,29 @@ function playFn(setPlay,play,store){
   }
 
 export default ()=>{
-    const {store} =  useContext(StoreContext)
-    const [ play,setPlay ] = useState(store.isPlay);
-    // useEffect(fn);
+    const {store,setStore,fn} =  useContext(StoreContext)
+    const [ play,setPlay ] = useState(false);
+    useEffect(fn);
     useEffect(()=>{
-      setPlay(store.isPlay)
-  },[store.isPlay])
-    console.log(play,store.isPlay);
+      if(store.source){
+        setPlay(store.isPlay)
+        playFn(store);
+      }
+    },[store.source])
+    useEffect(()=>{
+      if(store.isPlay !== play){
+        setStore({isPlay:play})
+        console.log(store.isPlay)
+        //playFn(store);
+      }
+    },[play])
+
     return (
         <>
         <Footer>
         <StepBackwardOutlined className="iconFont"/>
-          <div className="play" onClick={()=>{playFn(setPlay,!play,store)}}>
-            {
-                Conctrl(play)
-            }
+          <div className="play" onClick={()=>{setPlay(!play)}}>
+           <Conctrl bool={play}></Conctrl>
           </div>
           <StepForwardOutlined className="iconFont"/>
         </Footer>

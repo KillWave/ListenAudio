@@ -4,9 +4,7 @@ function setState(newState) {
         ...this.state,
         ...newState
     }
- 
-        
-        this.listener(this.state);
+    this.listener(this.state);
   
 }
 
