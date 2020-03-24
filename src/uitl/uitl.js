@@ -18,10 +18,20 @@ export function clickPlay(data,store,setStore){
         const source = audio.createBufferSource();
         audio.decodeAudioData(buf).then((decodedData)=>{
             source.buffer = decodedData;
+            setStore({bufferArr:[...store.bufferArr,decodedData]})
             setStore({isPlay:true})
             setStore({source})
-           
-        })
-          
+        })   
     })
+
+    
+   
 }
+
+export function speak(text){
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh";
+    u.rate = 1;
+    speechSynthesis.speak(u);
+}
+

@@ -14,7 +14,6 @@ export default ()=>{
     const [list,setList] = useState([]);
     const [totalnum,setTotalnum] = useState(0);
     const [storeN] = useState(store.page.n);
-    // console.log(store.isPlay)
     useEffect(fn)
     
     useEffect(()=>{
@@ -25,6 +24,7 @@ export default ()=>{
         }
        
     },[store.world]);
+  
     useEffect(()=>{
         if(data.data !== undefined){
             setList(data.data.song.list)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { speak } from '../uitl/uitl'
 /*
 更据key获得ma4音乐文件并且返回buf
 */
@@ -9,7 +9,6 @@ export function music(url,cb){
     axios.get(url).then(res=>{
         let data = res.data.data;
          data.items.forEach(item=>{
-             console.log(item);
              if(item.vkey !== ""){
                 fetch(`/mp3/${item.filename}?fromtag=0&guid=${guid}&vkey=${item.vkey}`,{
                     method: 'get',
@@ -19,9 +18,9 @@ export function music(url,cb){
                 }).then(buf => {
                    cb(buf);
                 })
-
-             }
-          
+             }else{
+                speak("找不到歌曲资源")
+             }    
         })
       })
 }

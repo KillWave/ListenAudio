@@ -1,39 +1,28 @@
 import React,{useState,useContext,useEffect} from 'react'
 import {StoreContext} from '../store'
+import Conctrl from "./Conctrl"
 import { Layout } from 'antd'
 import '../css/play.css'
-import { StepBackwardOutlined, StepForwardOutlined, CaretRightOutlined ,PauseOutlined } from '@ant-design/icons';
+import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons';
 const { Footer } = Layout;
-function playFn(store){
+let index = 0;
+  function playFn(store,play){
     if(store.source === null){
       return
     }
     store.source.connect(store.audioCtx.destination);
-    // const state = store.audioCtx.state;
-    console.log(store.isPlay);
-    if(store.isPlay){
-      
-      // console.log(state)
-      // if(state === 'running'){  
+    if(play){
+       if(index === 0){  
         store.source.start(0);
-      //   console.log(11)
-      // }else{
-      //   store.audioCtx.resume()
-      // }
+       }else{
+         store.audioCtx.resume()
+      }
     }else{
         store.audioCtx.suspend()
     }
     
   }
-  function Conctrl(props){
 
-    if(props.bool){
-      return  <PauseOutlined className="iconFont"/>
-     
-    }else{
-      return  <CaretRightOutlined className="iconFont" />
-    }
-  }
 
 export default ()=>{
     const {store,setStore,fn} =  useContext(StoreContext)
@@ -41,18 +30,18 @@ export default ()=>{
     useEffect(fn);
     useEffect(()=>{
       if(store.source){
-        setPlay(store.isPlay)
-        playFn(store);
+        setPlay(true)
+        playFn(store,true);
       }
     },[store.source])
     useEffect(()=>{
       if(store.isPlay !== play){
+        index = 1;
         setStore({isPlay:play})
-        console.log(store.isPlay)
-        //playFn(store);
+        playFn(store,play);
       }
     },[play])
-
+   
     return (
         <>
         <Footer>

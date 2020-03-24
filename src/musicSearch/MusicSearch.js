@@ -18,6 +18,7 @@ function search(val,setData){
       w：搜索关键字
     */
    if(val !== ""){
+
         api.search({...page,world:val},(data)=>{
             setData(eval(data));
         })

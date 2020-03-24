@@ -10,5 +10,6 @@ export default {
       },
       list:[],
       world:"",
-      isPlay:false
+      isPlay:false,
+      bufferArr:[]
 }
