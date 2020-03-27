@@ -14,7 +14,6 @@ export default () => {
     const [list, setList] = useState([]);
     const [totalnum, setTotalnum] = useState(0);
     const [stateN] = useState(state.page.n);
-
     useEffect(() => {
         if (state.word !== "") {
             api.search({ ...state.page, word: state.word }, (data) => {

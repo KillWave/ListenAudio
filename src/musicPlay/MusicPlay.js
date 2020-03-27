@@ -14,18 +14,13 @@ function playFn(state, play) {
   }
 
 }
-function onChange(value) {
-  console.log('onChange: ', value);
-}
 
-function onAfterChange(value) {
-  console.log('onAfterChange: ', value);
-}
+
 
 export default () => {
   const { state, dispatch } = useContext(StoreContext)
   const [currentTime, setCurrentTime] = useState(0)
-  const [duration,setDuration] = useState(0)
+  const [duration, setDuration] = useState(0)
   const [play, setPlay] = useState(false);
   state.audio.oncanplay = function () {
     setDuration(this.duration);
@@ -33,25 +28,16 @@ export default () => {
   state.audio.ontimeupdate = function (e) {
     // 更新时间和进度条 (默认一秒会执行多次 需要处理一秒只执行一次更新)
     let time = 0;
-   
+
     if (parseInt(e.target.currentTime) !== Number(time)) {
       time = parseInt(e.target.currentTime);
       setCurrentTime(time);
-      // console.log(time);
-      // const timeRanges = state.audio.buffered
-      // // 获取已缓存的时间  timeRanges.end(timeRanges.length - 1)
-
-      // // 计算百分比 展示进度
-      // const speed = parseInt(timeRanges.end(timeRanges.length - 1) * 100 / state.audio.duration * 100) / 100;
-    
-      // console.log(speed);
-
     }
   }
-  //timeupdate
-  // state.audio.currentTime
-
-
+  const onChange = (value) => {
+    state.audio.currentTime = value;
+    setCurrentTime(state.audio.currentTime);
+  }
 
   useEffect(() => {
     if (state.isPlay) {
@@ -77,7 +63,13 @@ export default () => {
           <StepForwardOutlined className="iconFont" />
         </div>
         <div className="ds-f1">
-          <Slider value={currentTime} max={duration} onChange={onChange} onAfterChange={onAfterChange} />
+          <Slider tipFormatter={(speek) => {
+            if (speek >= 60) {
+              return (speek / 60).toFixed(2) + "分"
+            } else {
+              return speek + "秒"
+            }
+          }} value={currentTime} tooltipVisible max={duration} onChange={onChange} />
         </div>
 
 
