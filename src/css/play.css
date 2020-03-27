@@ -10,4 +10,16 @@
  .ds-f1{
      flex: 1;
      padding: 0px 20px;
+     margin-top: calc(41px - 34px);
+ }
+ .volume{
+     width: 100px;
+     margin-top: calc(41px - 34px);
+ }
+ .volume-icon{
+     font-size: 20px;
+ }
+ .volume-icon{
+    margin-top: 4px;
+    margin-right: 10px;
  }
