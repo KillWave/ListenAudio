@@ -56,7 +56,7 @@ export default () => {
           onChange={(e) => { setSearchVal(e.target.value); search(e.target.value, setData); !isShow && refFn(true) }}
           onSearch={value => { setSearchVal(value); search(value, setData); refFn(false); dispatch({ type: "setWord", playload: value }) }}
           onFocus={(e) => { setSearchVal(e.target.value); search(e.target.value, setData); !isShow && refFn(true) }}
-          onBlur={()=>{setTimeout(()=>{refFn(false)},100) }}
+          onBlur={()=>{setTimeout(()=>{refFn(false)},200) }}
           value={searchVal}
         />
         <Sugger onRef={sugger} setValue={{ dispatch: setSearchVal, search }} setDataFn={setData} list={data}></Sugger>
