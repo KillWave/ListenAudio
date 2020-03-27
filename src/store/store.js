@@ -1,15 +1,15 @@
-const audioCtx = new AudioContext();
-// const source = audioCtx.createBufferSource();
+const audio = new Audio();
+// const source = audio.createBufferSource();
 
 export default {
-    audioCtx,
+    audio,
     source:null,
     page : {
         p:1,
         n:12
       },
       list:[],
-      world:"",
+      word:"",
       isPlay:false,
       bufferArr:[]
 }

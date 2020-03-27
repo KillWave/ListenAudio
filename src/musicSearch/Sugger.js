@@ -1,31 +1,28 @@
-import React,{useState,useEffect,useContext,useMemo} from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 
-import {StoreContext} from '../store'
+import { StoreContext } from '../store'
 import "../uitl/uitl"
-export default (props)=>{
-    const { list ,setValue,setDataFn,onRef} = props;
+export default (props) => {
+    const { list, setValue, setDataFn, onRef } = props;
     const [isShow, isShowFn] = useState(true);
-    const storeObject =  useContext(StoreContext);
-    const setStore = storeObject.setStore;
-    const watch = storeObject.fn;
-    useEffect(watch);
-    useMemo(()=> onRef(isShow,isShowFn),[isShow])
+    const { dispatch } = useContext(StoreContext);
+    useMemo(() => onRef(isShow, isShowFn), [isShow])
 
-    return ( 
+    return (
         <div className="seachResult"  >
-        {
-           isShow ? list.map((item,key)=>{
-                return (<div className="suggersItem" key={key} onClick={
-                    ()=>{
-                        setValue.dispatch(item.songname);
-                        setValue.search(item.songname,setDataFn) 
-                        isShowFn(false);
-                        setStore({list:list})
-                        setStore({world:item.songname})
-                    }
-            }>{item.songname}</div>)
-            }) : []
-        }
+            {
+                isShow ? list.map((item, key) => {
+                    return (<div className="suggersItem" key={key} onClick={
+                        () => {
+                            setValue.dispatch(item.songname);
+                            setValue.search(item.songname, setDataFn)
+                            isShowFn(false);
+                            dispatch({ type: "setList", playload: list })
+                            dispatch({ type: "setWord", playload: item.songname })
+                        }
+                    }>{item.songname}</div>)
+                }) : []
+            }
         </div>
     )
 

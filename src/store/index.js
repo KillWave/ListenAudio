@@ -1,11 +1,13 @@
-import React,{createContext,useState} from 'react'
-import useGlobalHook from './useStore'
+import React,{createContext,useReducer} from 'react'
 import initialState from './store'
+import actionFn from './storeFn'
 export const StoreContext =  createContext({})
 export const Store =  (props)=>{
-    const [store,setStore,fn] = useGlobalHook(initialState,useState)();
+    const [state, dispatch] = useReducer((state, action) => {
+        return actionFn[action.type](state,action.playload)
+    },initialState)
     return (
-        <StoreContext.Provider value={{store,setStore,fn}}>
+        <StoreContext.Provider value={{state,dispatch}}>
             {props.children}
         </StoreContext.Provider>
     )

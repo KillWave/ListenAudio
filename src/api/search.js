@@ -6,7 +6,7 @@
    w：搜索关键字
  */
 export function search(args, callback) {
-    axios.get(`/serch?p=${args.p}&n=${args.n}&w=${args.world}`).then(res => {
+    axios.get(`/serch?p=${args.p}&n=${args.n}&w=${args.word}`).then(res => {
         callback(res.data);
     })
 }
