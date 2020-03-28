@@ -6,21 +6,47 @@ import Conctrl from "./Conctrl"
 import { Layout } from 'antd'
 import '../css/play.css'
 import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons';
+import { clickPlay } from "../uitl/uitl"
 const { Footer } = Layout;
+
 function playFn(state, play) {
-  if (play) {
-    state.audio.play()
-  } else {
-    state.audio.pause()
+  if (state.audio.src) {
+    if (play) {
+      state.audio.play()
+    } else {
+      state.audio.pause()
+    }
   }
 
+
 }
+
 export default () => {
   const { state, dispatch } = useContext(StoreContext)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [play, setPlay] = useState(false);
-  const [volume, setVolume] = useState(0)
+  const [volume, setVolume] = useState(0);
+  const index = state.index;
+  const playNext = () => {
+    if (index === -1) return;
+    const nextIndex = index + 1 <= state.musicList.length - 1 ? index + 1 : 0;
+    return nextIndex;
+  }
+  const playPrevious = () => {
+    if (index === -1) return;
+    const previousIndex = index - 1 >= 0 ? index - 1 : state.musicList.length - 1;
+    return previousIndex;
+  }
+  const playNextMusic = () => {
+    const index = playNext();
+    if (index !== undefined) dispatch({ type: "setIndex", playload: index });
+
+    clickPlay(state.musicList[index], state, dispatch);
+
+  }
+
+
   state.audio.oncanplay = function () {
     setDuration(this.duration);
     setVolume(this.volume);
@@ -35,7 +61,9 @@ export default () => {
     }
   }
   state.audio.onended = function () {
-    setPlay(!play)
+    setPlay(!play);
+    playNextMusic();
+
   }
   const progressChange = (value) => {
     state.audio.currentTime = value;
@@ -54,20 +82,40 @@ export default () => {
   }, [state.isPlay])
   useEffect(() => {
     if (state.isPlay !== play) {
-      dispatch({ type: "playAuto", playLoad: play })
+      dispatch({ type: "playAuto", playload: play })
       playFn(state, play);
     }
   }, [play])
+  // useEffect(() => {
+  //   const currentMusic = state.currentMusic;
+  //   if (currentMusic) {
+  //     const playMusic =  state.historyList.find(item=>{
+  //       return item.docid === currentMusic.docid;
+  //     })
+  //     if(!playMusic){
+  //       dispatch({ type: "setHistoryListPush", playload: [currentMusic] })
+  //     }
+  //   }
+
+  // }, [state.currentMusic])
 
   return (
     <>
       <Footer className="ds-flex">
         <div>
-          <StepBackwardOutlined className="iconFont" />
+          <StepBackwardOutlined className="iconFont" onClick={() => {
+            const index = playPrevious();
+            if (index !== undefined) dispatch({ type: "setIndex", playload: index })
+            clickPlay(state.musicList[index], state, dispatch);
+
+          }} />
           <div className="play" onClick={() => { setPlay(!play) }}>
             <Conctrl bool={play}></Conctrl>
           </div>
-          <StepForwardOutlined className="iconFont" />
+          <StepForwardOutlined className="iconFont" onClick={() => {
+
+            playNextMusic();
+          }} />
         </div>
         <div className="ds-f1">
           <Slider tipFormatter={(speek) => {

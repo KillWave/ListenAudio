@@ -4,7 +4,16 @@ export default {
     },
     setAudio(state, playload){
         return {...state,audio:playload}
-    }
+    },
+    setMusicList(state, playload){
+        return {...state,musicList:playload}
+    },
+    setCurrentMusic(state, playload){
+        return {...state,currentMusic:playload}
+    },
+    setIndex(state, playload){
+        return {...state,index:playload}
+    },
     
     
 }

@@ -18,6 +18,7 @@ export default () => {
         if (state.word !== "") {
             api.search({ ...state.page, word: state.word }, (data) => {
                 setData(eval(data));
+                dispatch({ type: "setMusicList", playload: eval(data).data.song.list });
             })
         }
     }, [state.word]);
@@ -35,6 +36,9 @@ export default () => {
         }
         return <div>请搜索</div>
 
+    }
+    const foundIndex = (music) => {
+        return eval(data).data.song.list.findIndex(item => music.docid === item.docid)
     }
     const cacheword = useMemo(() => wordFn())
     return (
@@ -54,7 +58,7 @@ export default () => {
                 }}
                 header={cacheword}
                 dataSource={list}
-                renderItem={item => <List.Item onClick={() => { clickPlay(item, state, dispatch) }}>{item.songname}</List.Item>}
+                renderItem={item => <List.Item onClick={() => { dispatch({ type: "setHistoryListPush", playload: [item] });dispatch({ type: "setIndex", playload: foundIndex(item) }); clickPlay(item, state, dispatch) }}>{item.songname}</List.Item>}
             />
 
 

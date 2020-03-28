@@ -10,16 +10,20 @@ function clickVkey(data) {
 export function clickPlay(data, state, dispatch) {
     const audio = state.audio;
     const vkey = clickVkey(data);
+
     api.music(vkey, (url) => {
         audio.src = url;
+        dispatch({ type: "setCurrentMusic", playload: data })
         dispatch({ type: "setAudio", playload: audio })
         dispatch({ type: "playAuto", playload: true });
         audio.play();
-    })
+    },state, dispatch)
 
 
 
 }
+
+
 
 export function speak(text) {
     const u = new SpeechSynthesisUtterance(text);
