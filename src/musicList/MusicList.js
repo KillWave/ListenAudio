@@ -1,8 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { StoreContext } from '../store'
-import { Layout } from 'antd'
+import { Layout, Menu } from 'antd'
+import { SettingOutlined } from '@ant-design/icons';
 import { clickPlay } from "../uitl/uitl"
 import '../css/musicList.css'
+const { SubMenu } = Menu;
+
 const { Sider } = Layout;
 export default () => {
     const { state, dispatch } = useContext(StoreContext);
@@ -15,7 +18,7 @@ export default () => {
         }
     }, [])
     useEffect(() => {
-        if (state.historyList.length) {  
+        if (state.historyList.length) {
             localStorage.setItem("historyList", JSON.stringify(state.historyList));
             setList(state.historyList);
         }
@@ -27,17 +30,37 @@ export default () => {
                 <div className="music-list-header">
 
                 </div>
-                {
+                <Menu
+                    onClick={(e) => { console.log(e) }}
+                    defaultSelectedKeys={['historyList']}
+                    defaultOpenKeys={['historyList']}
+                    mode="inline"
+                    className="history-menu"
+                >
+                    <SubMenu
+                        key="historyList"
+                        title={
+                            <span>
+                                <SettingOutlined />
+                                <span>历史播放记录</span>
+                            </span>
+                        }
+                    >
+                        {
 
-                    list.map(item => {
-                        return <div className="ant-list-item list-item-bg" key={item.docid} onClick={() => {
-                            clickPlay(item, state, dispatch);
-                            
-                            dispatch({type:"resetHistoryList",playload:list})
-                            
-                        }}>{item.songname}</div>
-                    })
-                }
+                            list.map(item => {
+                                return <Menu.Item className="ant-list-item list-item-bg" key={item.docid} onClick={() => {
+                                    clickPlay(item, state, dispatch);
+
+                                    dispatch({ type: "resetHistoryList", playload: list })
+
+                                }}>{item.songname}</Menu.Item>
+                            })
+                        }
+
+                    </SubMenu>
+                </Menu>
+
 
             </Sider>
         </>
