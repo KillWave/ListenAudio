@@ -27,6 +27,7 @@ export default () => {
   const [duration, setDuration] = useState(0)
   const [play, setPlay] = useState(false);
   const [volume, setVolume] = useState(0);
+  const [details, setDetails] = useState({});
   const index = state.index;
   const playNext = () => {
     if (index === -1) return;
@@ -41,7 +42,7 @@ export default () => {
   const playNextMusic = () => {
     const index = playNext();
     if (index !== undefined) dispatch({ type: "setIndex", playload: index });
-
+    console.log(index);
     clickPlay(state.musicList[index], state, dispatch);
 
   }
@@ -86,26 +87,21 @@ export default () => {
       playFn(state, play);
     }
   }, [play])
-  // useEffect(() => {
-  //   const currentMusic = state.currentMusic;
-  //   if (currentMusic) {
-  //     const playMusic =  state.historyList.find(item=>{
-  //       return item.docid === currentMusic.docid;
-  //     })
-  //     if(!playMusic){
-  //       dispatch({ type: "setHistoryListPush", playload: [currentMusic] })
-  //     }
-  //   }
+  useEffect(() => {
 
-  // }, [state.currentMusic])
+    if (state.currentMusic) {
+      setDetails(state.currentMusic);
+    }
 
+  }, [state.currentMusic])
   return (
     <>
       <Footer className="ds-flex">
         <div>
           <StepBackwardOutlined className="iconFont" onClick={() => {
             const index = playPrevious();
-            if (index !== undefined) dispatch({ type: "setIndex", playload: index })
+            if (index !== undefined) dispatch({ type: "setIndex", playload: index });
+            console.log(index);
             clickPlay(state.musicList[index], state, dispatch);
 
           }} />
@@ -113,11 +109,15 @@ export default () => {
             <Conctrl bool={play}></Conctrl>
           </div>
           <StepForwardOutlined className="iconFont" onClick={() => {
-
             playNextMusic();
           }} />
         </div>
         <div className="ds-f1">
+          <div className="ds-details">
+            <span> {currentTime >= 60 ? (currentTime / 60).toFixed(2) + "分" : currentTime + '秒'} / {duration >= 60 ? (duration / 60).toFixed(2) + "分" : duration + '秒'}  </span>
+            <span>{details.songname}</span>
+
+          </div>
           <Slider tipFormatter={(speek) => {
             if (speek >= 60) {
               return (speek / 60).toFixed(2) + "分"

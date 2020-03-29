@@ -23,3 +23,6 @@
 .ant-list-item{
     cursor:pointer;
 }
+.ant-layout-footer{
+    padding: 16px 50px;
+}

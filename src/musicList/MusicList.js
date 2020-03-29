@@ -23,6 +23,9 @@ export default () => {
             setList(state.historyList);
         }
     }, [state.historyList])
+    const foundIndex = (music) => {
+        return list.findIndex(item => music.docid === item.docid)
+    }
 
     return (
         <>
@@ -50,9 +53,9 @@ export default () => {
 
                             list.map(item => {
                                 return <Menu.Item className="ant-list-item list-item-bg" key={item.docid} onClick={() => {
+                                    dispatch({ type: "setIndex", playload: foundIndex(item) })
                                     clickPlay(item, state, dispatch);
-
-                                    dispatch({ type: "resetHistoryList", playload: list })
+                                    dispatch({ type: "setMusicList", playload: list });
 
                                 }}>{item.songname}</Menu.Item>
                             })
