@@ -5,5 +5,8 @@ export default {
     },
     setHistoryListPush(state, playload) {
         return { ...state, historyList: [...state.historyList,...playload] }
-    }
+    },
+    notFount(state, playload) {
+        return { ...state, notFount: playload }
+    },
 }

@@ -12,5 +12,6 @@ export default {
   historyList: [],
   index: null,
   word: "",
-  isPlay: false
+  isPlay: false,
+  notFount:0
 }

@@ -14,7 +14,7 @@ export default () => {
     const [list, setList] = useState([]);
     const [totalnum, setTotalnum] = useState(0);
     const [stateN] = useState(state.page.n);
-    const [current,setCurrent] = useState(1);
+    const [current, setCurrent] = useState(1);
     useEffect(() => {
         if (state.word !== "") {
             api.search({ ...state.page, word: state.word }, (data) => {
@@ -62,7 +62,7 @@ export default () => {
                 size="large"
                 bordered
                 pagination={{
-                    current:current,
+                    current: current,
                     defaultPageSize: stateN,
                     hideOnSinglePage: true,
                     total: totalnum,
@@ -75,7 +75,12 @@ export default () => {
                 }}
                 header={cacheword}
                 dataSource={list}
-                renderItem={item => <List.Item onClick={() => { foundHistory(item); dispatch({ type: "setIndex", playload: foundIndex(item) }); clickPlay(item, state, dispatch) }}>{item.songname}</List.Item>}
+                renderItem={item => <List.Item onClick={() => {
+                    clickPlay(item, state, dispatch);
+                    foundHistory(item)
+                    dispatch({ type: "setIndex", playload: foundIndex(item) });
+                }
+                }>{item.songname}</List.Item>}
             />
 
 

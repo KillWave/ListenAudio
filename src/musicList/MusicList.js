@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { StoreContext } from '../store'
 import { Layout, Menu } from 'antd'
-import { SettingOutlined } from '@ant-design/icons';
+import { PicRightOutlined } from '@ant-design/icons';
 import { clickPlay } from "../uitl/uitl"
 import '../css/musicList.css'
 const { SubMenu } = Menu;
@@ -44,8 +44,8 @@ export default () => {
                         key="historyList"
                         title={
                             <span>
-                                <SettingOutlined />
-                                <span>历史播放记录</span>
+                                <PicRightOutlined />
+                                <span>默认列表</span>
                             </span>
                         }
                     >
@@ -56,7 +56,6 @@ export default () => {
                                     dispatch({ type: "setIndex", playload: foundIndex(item) })
                                     clickPlay(item, state, dispatch);
                                     dispatch({ type: "setMusicList", playload: list });
-
                                 }}>{item.songname}</Menu.Item>
                             })
                         }

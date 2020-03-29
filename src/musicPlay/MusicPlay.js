@@ -42,12 +42,9 @@ export default () => {
   const playNextMusic = () => {
     const index = playNext();
     if (index !== undefined) dispatch({ type: "setIndex", playload: index });
-    console.log(index);
     clickPlay(state.musicList[index], state, dispatch);
 
   }
-
-
   state.audio.oncanplay = function () {
     setDuration(this.duration);
     setVolume(this.volume);
@@ -88,12 +85,16 @@ export default () => {
     }
   }, [play])
   useEffect(() => {
-
     if (state.currentMusic) {
       setDetails(state.currentMusic);
     }
-
   }, [state.currentMusic])
+  useEffect(()=>{
+    if(state.notFount){
+      playNextMusic();
+    }
+    
+  },[state.notFount])
   return (
     <>
       <Footer className="ds-flex">
@@ -101,7 +102,6 @@ export default () => {
           <StepBackwardOutlined className="iconFont" onClick={() => {
             const index = playPrevious();
             if (index !== undefined) dispatch({ type: "setIndex", playload: index });
-            console.log(index);
             clickPlay(state.musicList[index], state, dispatch);
 
           }} />
