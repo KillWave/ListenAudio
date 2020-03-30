@@ -13,5 +13,7 @@ export default {
   index: null,
   word: "",
   isPlay: false,
-  notFount:0
+  notFount:0,
+  lyric:"",
+  currentTime:0
 }

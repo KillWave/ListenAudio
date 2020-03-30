@@ -5,13 +5,15 @@ import { StoreContext } from '../store'
 import Conctrl from "./Conctrl"
 import { Layout } from 'antd'
 import '../css/play.css'
+import api from '../api'
 import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons';
-import { clickPlay } from "../uitl/uitl"
+import { clickPlay, s_to_hs } from "../uitl/uitl"
 const { Footer } = Layout;
 
 function playFn(state, play) {
   if (state.audio.src) {
     if (play) {
+
       state.audio.play()
     } else {
       state.audio.pause()
@@ -86,15 +88,24 @@ export default () => {
   }, [play])
   useEffect(() => {
     if (state.currentMusic) {
+      api.lyric({ songmid: state.currentMusic.songmid }, (res) => {
+        const lyric = res.data.lyric;
+        dispatch({ type: "setLyric", playload: lyric });
+      });
       setDetails(state.currentMusic);
     }
   }, [state.currentMusic])
-  useEffect(()=>{
-    if(state.notFount){
+  useEffect(() => {
+    if (state.notFount) {
+      state.audio.pause();
       playNextMusic();
     }
-    
-  },[state.notFount])
+
+  }, [state.notFount]);
+  useEffect(() => {
+    // console.log(currentTime)
+    dispatch({ type: "setCurrentTime", playload: currentTime })
+  }, [currentTime]);
   return (
     <>
       <Footer className="ds-flex">
@@ -114,23 +125,18 @@ export default () => {
         </div>
         <div className="ds-f1">
           <div className="ds-details">
-            <span> {currentTime >= 60 ? (currentTime / 60).toFixed(2) + "分" : currentTime + '秒'} / {duration >= 60 ? (duration / 60).toFixed(2) + "分" : duration + '秒'}  </span>
+            <span> {s_to_hs(currentTime)} / {s_to_hs(duration)}  </span>
             <span>{details.songname}</span>
-
           </div>
           <Slider tipFormatter={(speek) => {
-            if (speek >= 60) {
-              return (speek / 60).toFixed(2) + "分"
-            } else {
-              return speek + "秒"
-            }
-          }} value={currentTime} tooltipVisible max={duration} onChange={progressChange} />
+            s_to_hs(speek)
+          }} value={currentTime}  max={duration} onChange={progressChange} />
         </div>
         <div className="volume ds-flex">
           <SoundOutlined className="volume-icon" />
           <Slider className="ds-f1" tipFormatter={(speek) => {
             return speek * 10;
-          }} min={0} max={1} step={0.1} value={volume} tooltipVisible onChange={volumeChange} />
+          }} min={0} max={1} step={0.1} value={volume}  onChange={volumeChange} />
         </div>
 
       </Footer>

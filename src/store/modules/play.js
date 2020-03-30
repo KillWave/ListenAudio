@@ -9,4 +9,10 @@ export default {
     notFount(state, playload) {
         return { ...state, notFount: playload }
     },
+    setLyric(state, playload) {
+        return { ...state, lyric: playload }
+    },
+    setCurrentTime(state, playload) {
+        return { ...state, currentTime: playload }
+    },
 }

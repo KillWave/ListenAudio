@@ -2,6 +2,7 @@ import React,{} from 'react'
 
 
 import SearchResult from '../searchResult/SearchResult'
+import Lyric from '../lyric/lyric'
 import { Layout,Tabs } from 'antd'
 const { TabPane } = Tabs;
 const { Content } = Layout;
@@ -13,7 +14,7 @@ export default ()=>{
         <>
         <Content>
             
-        <Tabs defaultActiveKey="2" size="large">
+        <Tabs defaultActiveKey="3" size="large">
           <TabPane tab="推荐" key="1">
             Content of tab 1
           </TabPane>
@@ -21,7 +22,7 @@ export default ()=>{
            <SearchResult></SearchResult>
           </TabPane>
           <TabPane tab="歌词" key="3">
-            Content of tab 3
+            <Lyric></Lyric>
           </TabPane>
         </Tabs>
         </Content>

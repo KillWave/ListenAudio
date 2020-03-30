@@ -1,5 +1,11 @@
 import axios from 'axios'
 import { speak } from '../uitl/uitl'
+const instance = axios.create({
+  timeout:2000,
+  headers:{
+    'Content-Type':"application/x-www-form-urlencoded"
+  }
+})
 /*
 更据key获得ma4音乐文件并且返回buf
 */
@@ -17,6 +23,22 @@ export function music(url, cb, state, dispatch) {
         speak("找不到歌曲资源");
       }
     })
+  })
+}
+
+export function lyric(args,cb){
+ 
+  instance.get("/lyric",{
+    params:{
+      songmid:args.songmid,
+      format:"json",
+      nobase64:1
+    },
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+  }
+  }).then(res=>{
+    cb(res);
   })
 }
 

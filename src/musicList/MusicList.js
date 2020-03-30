@@ -34,7 +34,6 @@ export default () => {
 
                 </div>
                 <Menu
-                    onClick={(e) => { console.log(e) }}
                     defaultSelectedKeys={['historyList']}
                     defaultOpenKeys={['historyList']}
                     mode="inline"
