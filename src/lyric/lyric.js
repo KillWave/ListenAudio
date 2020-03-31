@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect,useRef } from 'react'
 import { StoreContext } from '../store'
 
 function lrc(data, istotalTime) {
@@ -37,6 +37,11 @@ export default () => {
     const { state, dispatch } = useContext(StoreContext);
     const [lyric, setLyric] = useState([]);
     const [text, setText] = useState("");
+    const couterRef = useRef();
+    // useEffect(()=>{
+    //     const lyric = document.querySelector(".box-lyric")
+    //     console.log
+    // },[])
     useEffect(() => {
         const sLyric = state.lyric;
         if (sLyric.length) {
@@ -47,22 +52,31 @@ export default () => {
     }, [state.lyric])
     useEffect(() => {
         const time = state.currentTime;
-        const show = lyric.find(item => {
+        const index = lyric.findIndex(item => {
             return item.time === time;
         });
-        if(show){
-            setText(show.text);
+        if(index != -1){
+            //setText(show.text);
+            //text
+            const list =  couterRef.current.querySelectorAll("div");
+            for(let i = 0; i < list.length; i++){
+                list[i].style.background = 'unset';
+            }
+            list[index].scrollIntoView({block:"center",behavior: "smooth"});
+            list[index].style.background = '#fff';
+           
+             console.log(index,list[index])
         }
-        // console.log(show ? show.text : "")
+        
     }, [state.currentTime]);
     return (
         <div style={{ height: "calc(100vh - 86px - 64px - 57px)", overflow: "hidden",textAlign: "center" }}>
-            <div>
+            <div className="box-lyric" ref={couterRef}>
                 {
-                    text
-                    // lyric.map(item => {
-                    //     return <div key={item.time}>{item.text}</div>
-                    // })
+                    
+                    lyric.map(item => {
+                        return <div key={item.time}>{item.text}</div>
+                    })
                 }
             </div>
 
