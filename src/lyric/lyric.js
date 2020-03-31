@@ -71,7 +71,7 @@ export default () => {
     }, [state.currentTime]);
     return (
         <div style={{ height: "calc(100vh - 86px - 64px - 57px)", overflow: "hidden",textAlign: "center" }}>
-            <div className="box-lyric" ref={couterRef}>
+            <div className="box-lyric" ref={couterRef} style={{margin:"calc((100vh - 86px - 64px - 57px) / 2)"}}>
                 {
                     
                     lyric.map(item => {
