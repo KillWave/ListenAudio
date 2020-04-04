@@ -36,16 +36,12 @@ function lrc(data, istotalTime) {
 export default () => {
     const { state, dispatch } = useContext(StoreContext);
     const [lyric, setLyric] = useState([]);
-    const [text, setText] = useState("");
     const couterRef = useRef();
-    // useEffect(()=>{
-    //     const lyric = document.querySelector(".box-lyric")
-    //     console.log
-    // },[])
     useEffect(() => {
         const sLyric = state.lyric;
         if (sLyric.length) {
             const time = lrc(sLyric, true);
+            console.log(time)
             setLyric(time)
         }
 
@@ -56,8 +52,6 @@ export default () => {
             return item.time === time;
         });
         if(index != -1){
-            //setText(show.text);
-            //text
             const list =  couterRef.current.querySelectorAll("div");
             for(let i = 0; i < list.length; i++){
                 list[i].style.background = 'unset';

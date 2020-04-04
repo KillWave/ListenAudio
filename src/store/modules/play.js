@@ -15,4 +15,7 @@ export default {
     setCurrentTime(state, playload) {
         return { ...state, currentTime: playload }
     },
+    setActiveKey(state, playload) {
+        return { ...state, ActiveKey: playload }
+    }
 }

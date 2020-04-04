@@ -54,7 +54,7 @@ export default () => {
         <Search
           placeholder="请输入搜索关键词"
           onChange={(e) => { setSearchVal(e.target.value); search(e.target.value, setData); !isShow && refFn(true) }}
-          onSearch={value => { setSearchVal(value); search(value, setData); refFn(false); dispatch({ type: "setWord", playload: value }) }}
+          onSearch={value => { setSearchVal(value); search(value, setData); refFn(false); dispatch({ type: "setWord", playload: value });  dispatch({ type: "setActiveKey", playload: "2" }) }}
           onFocus={(e) => { setSearchVal(e.target.value); search(e.target.value, setData); !isShow && refFn(true) }}
           onBlur={()=>{setTimeout(()=>{refFn(false)},200) }}
           value={searchVal}

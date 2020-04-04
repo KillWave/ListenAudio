@@ -78,12 +78,14 @@ export default () => {
     if (state.isPlay) {
       setPlay(true)
       playFn(state, true);
+      dispatch({ type: "setActiveKey", playload: "3" })
     }
   }, [state.isPlay])
   useEffect(() => {
     if (state.isPlay !== play) {
       dispatch({ type: "playAuto", playload: play })
       playFn(state, play);
+      dispatch({ type: "setActiveKey", playload: "3" })
     }
   }, [play])
   useEffect(() => {
@@ -103,7 +105,6 @@ export default () => {
 
   }, [state.notFount]);
   useEffect(() => {
-    // console.log(currentTime)
     dispatch({ type: "setCurrentTime", playload: currentTime })
   }, [currentTime]);
   return (
@@ -130,13 +131,13 @@ export default () => {
           </div>
           <Slider tipFormatter={(speek) => {
             s_to_hs(speek)
-          }} value={currentTime}  max={duration} onChange={progressChange} />
+          }} value={currentTime} max={duration} onChange={progressChange} />
         </div>
         <div className="volume ds-flex">
           <SoundOutlined className="volume-icon" />
           <Slider className="ds-f1" tipFormatter={(speek) => {
             return speek * 10;
-          }} min={0} max={1} step={0.1} value={volume}  onChange={volumeChange} />
+          }} min={0} max={1} step={0.1} value={volume} onChange={volumeChange} />
         </div>
 
       </Footer>

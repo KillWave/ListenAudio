@@ -15,5 +15,6 @@ export default {
   isPlay: false,
   notFount:0,
   lyric:"",
-  currentTime:0
+  currentTime:0,
+  ActiveKey:"1"
 }
