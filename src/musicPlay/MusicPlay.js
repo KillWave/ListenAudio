@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Slider } from 'antd';
+import { Slider, Modal, Button } from 'antd';
 import { SoundOutlined } from '@ant-design/icons';
 import { StoreContext } from '../store'
 import Conctrl from "./Conctrl"
@@ -30,6 +30,9 @@ export default () => {
   const [play, setPlay] = useState(false);
   const [volume, setVolume] = useState(0);
   const [details, setDetails] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [lVol, setlVol] = useState(100);
+  const [rVol, setrVol] = useState(100);
   const index = state.index;
   const playNext = () => {
     if (index === -1) return;
@@ -65,6 +68,8 @@ export default () => {
     playNextMusic();
 
   }
+  const handleOk = () => { };
+  const handleCancel = () => { };
   const progressChange = (value) => {
     state.audio.currentTime = value;
     setCurrentTime(state.audio.currentTime);
@@ -107,6 +112,24 @@ export default () => {
   useEffect(() => {
     dispatch({ type: "setCurrentTime", playload: currentTime })
   }, [currentTime]);
+  let filter;
+  const lVolChange = (v) => {
+    filter.frequency.value = v; //取值范围 小于800
+    filter.Q.value = v; //小于1000
+    setlVol(v);
+    setrVol(v);
+  }
+  useEffect(() => {
+    if (visible) {
+      const ctx = new AudioContext;
+      const media = ctx.createMediaElementSource(state.audio)
+      filter = ctx.createBiquadFilter();
+
+
+      media.connect(ctx.destination);
+    }
+
+  }, [visible])
   return (
     <>
       <Footer className="ds-flex">
@@ -139,6 +162,37 @@ export default () => {
             return speek * 10;
           }} min={0} max={1} step={0.1} value={volume} onChange={volumeChange} />
         </div>
+        <Button onClick={() => {
+          setVisible(true);
+
+        }}>音效</Button>
+        <Modal
+          visible={visible}
+          title="音效设置"
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={[
+            <Button key="back" onClick={handleCancel}>
+              确定
+            </Button>,
+            <Button key="submit" type="primary" onClick={handleOk}>
+              取消
+            </Button>,
+          ]}
+        >
+          <p>
+            <label>左声道：</label>
+            <Slider className="ds-f1" tipFormatter={(speek) => {
+              return speek * 10;
+            }} min={0} max={1} step={0.1} value={lVol} onChange={lVolChange} />
+          </p>
+          <p>
+            <label>右声道：</label>
+            <Slider className="ds-f1" tipFormatter={(speek) => {
+              return speek * 10;
+            }} min={0} max={1} step={0.1} value={volume} onChange={volumeChange} />
+          </p>
+        </Modal>
 
       </Footer>
     </>

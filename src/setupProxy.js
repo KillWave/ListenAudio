@@ -14,7 +14,16 @@ module.exports = function (app) {
     })
 
   })
-
+  //
+  app.use(createProxyMiddleware('/recommend', {
+    target: "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg",//&_=1520777874472
+    
+    secure: false,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/recommend': ''
+    }
+  }));
   app.use(createProxyMiddleware('/vkey', {
     target: "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg",
     secure: false,
@@ -33,7 +42,7 @@ module.exports = function (app) {
   }));
 
   app.use(createProxyMiddleware('/mp3', {
-    target: "http://ws.stream.qqmusic.qq.com",
+    target: "https://u.y.qq.com/cgi-bin/musicu.fcg",
     secure: false,
     changeOrigin: true,
     pathRewrite: {

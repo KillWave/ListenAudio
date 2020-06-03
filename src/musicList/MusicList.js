@@ -51,7 +51,7 @@ export default () => {
                         {
 
                             list.map(item => {
-                                return <Menu.Item className="ant-list-item list-item-bg" key={item.docid} onClick={() => {
+                                return <Menu.Item className="ant-list-item list-item-bg" key={item.albummid} onClick={() => {
                                     dispatch({ type: "setIndex", playload: foundIndex(item) })
                                     clickPlay(item, state, dispatch);
                                     dispatch({ type: "setMusicList", playload: list });

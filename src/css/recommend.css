@@ -1,0 +1,11 @@
+.recommend{
+    display: flex;
+    padding: 20px;
+}
+.recommend-list{
+    flex: 1;
+}
+.recommend-dscripten{
+    /* height: calc(100vh - 64px - 89px - 55px - 57px - 64px - 16px); */
+    padding-right: 20px;
+}
