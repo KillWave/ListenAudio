@@ -6,6 +6,9 @@ export default {
     setHistoryListPush(state, playload) {
         return { ...state, historyList: [...state.historyList,...playload] }
     },
+    setHistoryList(state, playload) {
+        return { ...state, historyList: [...playload] }
+    },
     notFount(state, playload) {
         return { ...state, notFount: playload }
     },

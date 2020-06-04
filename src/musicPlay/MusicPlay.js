@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Slider, Modal, Button } from 'antd';
-import { SoundOutlined } from '@ant-design/icons';
+import { SoundOutlined,RetweetOutlined, SwapOutlined,RedoOutlined } from '@ant-design/icons';
 import { StoreContext } from '../store'
 import Conctrl from "./Conctrl"
 import { Layout } from 'antd'
@@ -34,15 +34,39 @@ export default () => {
   const [lVol, setlVol] = useState(100);
   const [rVol, setrVol] = useState(100);
   const index = state.index;
+   //1 顺序播放 2 随机播放 3 单曲循环
+   const [switchPlay, setSwitchPlay] =  useState(1);
+   let pattern = 1;
+   function setPalyPattern(type) {
+    switch (type) {
+      case 1:
+        pattern = 1;
+        //  setPattern(1);
+        return (<RetweetOutlined />);
+      case 2:
+        pattern = Math.ceil(Math.random() * state.musicList.length);
+        return (<SwapOutlined />);
+      default:
+        pattern = 0;
+        return (<RedoOutlined spin={true} />);
+    }
+  }
   const playNext = () => {
     if (index === -1) return;
-    const nextIndex = index + 1 <= state.musicList.length - 1 ? index + 1 : 0;
-    return nextIndex;
+    if (pattern<2){
+      const nextIndex = index + pattern <= state.musicList.length - 1 ? index + pattern : 0;
+      return nextIndex;
+    }
+    return pattern;
+   
   }
   const playPrevious = () => {
     if (index === -1) return;
-    const previousIndex = index - 1 >= 0 ? index - 1 : state.musicList.length - 1;
+    if (pattern < 2) {
+    const previousIndex = index - pattern >= 0 ? index - pattern : state.musicList.length - 1;
     return previousIndex;
+    }
+    return pattern;
   }
   const playNextMusic = () => {
     const index = playNext();
@@ -146,6 +170,13 @@ export default () => {
           <StepForwardOutlined className="iconFont" onClick={() => {
             playNextMusic();
           }} />
+           <Button type="primary" shape="circle" onClick={() => {
+            switchPlay > 2 ? setSwitchPlay(1) : setSwitchPlay(switchPlay + 1);
+          }} >
+            {
+              setPalyPattern(switchPlay)
+            }
+          </Button>
         </div>
         <div className="ds-f1">
           <div className="ds-details">

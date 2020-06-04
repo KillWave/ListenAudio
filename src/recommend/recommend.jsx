@@ -30,10 +30,11 @@ export default function () {
     }
   };
   const foundIndex = (music) => {
-    return songlist.findIndex((item) => {
+    const index =  songlist.findIndex((item) => {
       const data = item.data;
       return data.albummid === music.albummid;
     });
+    dispatch({ type: "setIndex", playload: index });
   };
   useEffect(() => {
     if (flag) {
